@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "Monument Extended Bold";
+    src: url("./Monument/55d433372d270829c51e2577a78ef12d.eot");
+    src: url("./Monument/55d433372d270829c51e2577a78ef12d.eot?#iefix")format("embedded-opentype"),
+    url("./Monument/55d433372d270829c51e2577a78ef12d.woff2")format("woff2"),
+    url("./Monument/55d433372d270829c51e2577a78ef12d.woff")format("woff"),
+    url("./Monument/55d433372d270829c51e2577a78ef12d.ttf")format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Monument Extended";
+    src: url("./Monument/monument-extended-3.eot");
+    src: url("./Monument/monument-extended-3.eot?#iefix")format("embedded-opentype"),
+    url("./Monument/monument-extended-3.woff2")format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

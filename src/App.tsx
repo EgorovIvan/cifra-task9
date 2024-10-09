@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import {useEffect, useRef, useState} from 'react';
+import Header from './components/Header';
+import Main from './components/Main';
+import { useUserStore } from './store/userStore';
+// import Extra from "./components/Extra";
+import DraggableBlock from "./components/DraggableBlock";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+    const { setUsers } = useUserStore();
+    const [isUserListOpen, setUserListOpen] = useState(false);
+    const ref = useRef<HTMLDivElement>(null)
+
+    const toggleUserList = () => {
+        setUserListOpen(!isUserListOpen);
+    };
+
+    const height = ref.current?.getBoundingClientRect().height;
+
+    useEffect(() => {
+
+        setUsers([
+            { id: 1, name: 'User One' },
+            { id: 2, name: 'User Two' },
+            { id: 3, name: 'User Three' },
+        ]);
+    }, [setUsers]);
+    console.log(height)
+    return (
+        <div className="app" ref={ref}>
+                <Header />
+                <Main toggleUserList={toggleUserList}/>
+            <DraggableBlock />
+            {/*{isUserListOpen && <Extra />}*/}
+        </div>
+    );
+};
 
 export default App;
