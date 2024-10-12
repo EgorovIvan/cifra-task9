@@ -1,0 +1,20 @@
+// Box.scss
+.box {
+  position: absolute;
+  top: 0;
+  width: 23.4375rem;
+  height: 50.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  border-radius: 1.875rem;
+  background: #2B2626;
+  cursor: grab;
+  user-select: none;
+  transition: background-color 0.3s ease;
+
+  &:active {
+    background-color: #2980b9;
+    cursor: grabbing;
+  }
+}

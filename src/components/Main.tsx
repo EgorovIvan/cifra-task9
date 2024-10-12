@@ -1,10 +1,6 @@
 import * as React from 'react';
-import Extra from "./Extra";
 
-interface Props {
-    toggleUserList: () => void;
-}
-const Main: React.FC<Props> = ({toggleUserList}: Props) => {
+const Main: React.FC = () => {
 
     return (
         <main className="main">
@@ -32,7 +28,7 @@ const Main: React.FC<Props> = ({toggleUserList}: Props) => {
                         <p>Item Dimensions</p>1.7 x 0.6 x 1.7
                     </div>
                 </div>
-                <button className={'main__btn'} onClick={toggleUserList}>
+                <button className={'main__btn'} >
                     extra
                 </button>
             </div>
