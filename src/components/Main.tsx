@@ -1,6 +1,13 @@
 import * as React from 'react';
+import {useBoxStore} from "../store/useBoxStore";
 
 const Main: React.FC = () => {
+
+    const {appHeight, setYPosition} = useBoxStore();
+
+    const handleBoxOpen = () => {
+        setYPosition(appHeight / 2)
+    }
 
     return (
         <main className="main">
@@ -28,7 +35,10 @@ const Main: React.FC = () => {
                         <p>Item Dimensions</p>1.7 x 0.6 x 1.7
                     </div>
                 </div>
-                <button className={'main__btn'} >
+
+            </div>
+            <div className="container">
+                <button className={'main__btn'} onClick={handleBoxOpen}>
                     extra
                 </button>
             </div>

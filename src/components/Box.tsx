@@ -1,80 +1,140 @@
-import React, { useRef, useState } from 'react';
-import { useBoxStore } from '../store/useBoxStore';
-import {useAppStore} from "../store/useAppStore";
+import * as React from 'react';
+import {useEffect, useRef, useState} from 'react';
+import {useBoxStore} from '../store/useBoxStore';
 
 const Box: React.FC = () => {
-    const { yPosition, setYPosition } = useBoxStore();
-    const {appHeight} = useAppStore();
+    const {yPosition, appHeight, isTouchUp, setYPosition, setAppHeight, setIsTouchUp} = useBoxStore();
     const [isDragging, setIsDragging] = useState(false);
-    const boxRef = useRef<HTMLDivElement>(null);
+    const plateRef = useRef<HTMLDivElement>(null);
 
-    const handleMouseDown = (e: React.MouseEvent) => {
+
+    const handleResize = () => {
+        setAppHeight(window.innerHeight);
+    };
+
+    /* Обработка события при нажатии на экран */
+    const handleTouchStart = () => {
+        setIsTouchUp(false)
         setIsDragging(true);
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-        if (!isDragging || !boxRef.current) return;
 
-        const newYPosition = e.clientY - boxRef.current.offsetHeight * 2 ;
-        setYPosition(newYPosition);
-    };
+    /* Обработка события при переносе блока */
+    const handleTouchMove = (e: TouchEvent) => {
+        setIsTouchUp(false)
+        if (!isDragging || !plateRef.current) return;
 
-    const handleMouseUp = (e: MouseEvent) => {
-        setIsDragging(false);
-        console.log(e.clientY)
-        if (e.clientY < 100) {
-            setYPosition(50);
-        } else if (e.clientY > 400) {
-            setYPosition(appHeight/2 );
-        } else {
-            setYPosition(200);
+        const newYPosition = e.touches[0]?.clientY;
+
+        if(newYPosition > 0) {
+            setYPosition(newYPosition - 15);
         }
 
     };
 
-    // const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
-    //     const newY = event.clientY;
-    //     const windowHeight = window.innerHeight;
-    //
-    //     if (newY >= 0 && newY <= windowHeight) {
-    //         setPositionY(newY);
-    //
-    //         // Изменение цвета в зависимости от положения
-    //         if (newY <= 50) {
-    //             setColor('red');
-    //         } else if (newY >= 150) {
-    //             setColor('green');
-    //         } else {
-    //             setColor('gray');
-    //         }
-    //     }
-    //     console.log(window.innerHeight)
-    // };
+    /* Обработка события при отпускании touch */
+    const handleTouchUp = (e: TouchEvent) => {
+        setIsTouchUp(true)
+        const fixedPosition = e.changedTouches[0]?.clientY;
 
-    React.useEffect(() => {
-        if (isDragging) {
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
+        if (fixedPosition < appHeight * 0.25) {
+            setYPosition(0);
+        } else if (fixedPosition > appHeight * 0.75) {
+            setYPosition(appHeight + 10);
         } else {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
+            setYPosition(appHeight / 2);
+        }
+        setIsDragging(false);
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        handleResize()
+        setYPosition(appHeight);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [appHeight]);
+
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('touchmove', handleTouchMove);
+            document.addEventListener('touchend', handleTouchUp);
+        } else {
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchUp);
         }
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchUp);
         };
     }, [isDragging]);
 
     return (
         <div
-            className="box"
-            style={{ transform: `translateY(${yPosition}px)` }}
+            className={`box ${ isTouchUp ? "box-animation": ''}`}
+            style={{transform: `translateY(${yPosition}px)`, height: `${appHeight}px`}}
         >
-            <div
-                ref={boxRef}
-                onMouseDown={handleMouseDown}
-            >TEST</div>
+            <div>
+
+                <div
+                    className={'box__plate'}
+                    ref={plateRef}
+                    onTouchStart={handleTouchStart}
+                >
+                </div>
+
+                <div className="box__title">
+                    FEATURED
+                </div>
+
+                <div className="box__products">
+                    <div className="box__products-item">
+                        <img src="./images/hrm4.webp" alt="product-1"/>
+                        <div className="product__name">
+                            HRM-Pro™
+                        </div>
+                        <div className="product__price">
+                            $129
+                        </div>
+                    </div>
+                    <div className="box__products-item">
+                        <img src="./images/striker4.webp" alt="product-2"/>
+                        <div className="product__name">
+                            STRIKER™ Plus 4 Ice Fishing Bundle
+                        </div>
+                        <div className="product__price">
+                            $249
+                        </div>
+                    </div>
+                </div>
+                <div className="box__title color-black">
+                    WEARABLES
+                </div>
+                <div className="box__text">
+                    Explore all of our wrist-worn devices for all ages, from fitness trackers to advanced smartwatches.
+                </div>
+            </div>
+
+            <div className="box__func">
+                <div className="play">
+                    <div className="play__btn"></div>
+                    <div className="play__title">Start</div>
+                </div>
+                <div className="info">
+                    <div>
+                        <div className="info__title">7.20 <span>km</span></div>
+                        <div className="info__text">Distance</div>
+                    </div>
+                    <div>
+                        <div className="info__title">453 <span>kcal</span></div>
+                        <div className="info__text">Calories</div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     );
 };

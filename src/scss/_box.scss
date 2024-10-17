@@ -1,15 +1,17 @@
-// Box.scss
 .box {
   position: absolute;
   top: 0;
+  left: 0;
+  transform: translate(0, 0%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 1.375rem 1.875rem;
   width: 23.4375rem;
   height: 50.75rem;
-  display: flex;
-  justify-content: center;
-  align-items: start;
   border-radius: 1.875rem;
-  background: #2B2626;
-  cursor: grab;
+  background: #E0FFFF;
   user-select: none;
   transition: background-color 0.3s ease;
 
@@ -17,4 +19,183 @@
     background-color: #2980b9;
     cursor: grabbing;
   }
+
+  &__plate {
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5rem;
+    height: 5rem;
+    background: url(../images/plate2.png) no-repeat;
+    background-size: contain;
+    cursor: grab;
+  }
+
+  &__title {
+    margin-bottom: 1.875rem;
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: 0.6825rem;
+    letter-spacing: 0.02rem;
+    text-align: center;
+    color: #B5B5B5;
+  }
+
+  .color-black {
+    color: #000000;
+  }
+
+  &__products {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.875rem;
+  }
+
+  &__products-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
+    img {
+      margin-bottom: 1.875rem;
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+  }
+
+  .product {
+
+    &__name {
+      margin-bottom: 0.5rem;
+      font-size: 0.625rem;
+      font-weight: 400;
+      line-height: 0.6825rem;
+      letter-spacing: 0.02rem;
+      text-align: center;
+      color: #0F0D0D;
+    }
+
+    &__price {
+      font-size: 0.625rem;
+      font-weight: 400;
+      line-height: 0.6825rem;
+      letter-spacing: 0.02rem;
+      text-align: center;
+      color: #B5B5B5;
+    }
+  }
+
+  &__text {
+    margin: 0 auto;
+    width: 17.25rem;
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: 0.6825rem;
+    letter-spacing: 0.02rem;
+    text-align: center;
+    color: #B5B5B5;
+  }
+
+  &__func {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 8.75rem;
+    gap: 1.25rem;
+    width: 100%;
+
+    .play {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.875rem;
+      width: 100%;
+      height: 100%;
+      border-radius: 1.875rem;
+      background: #d9d99b;
+
+      &__btn {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 4rem;
+        background: #0F0D0D;
+        cursor: pointer;
+      }
+
+      &__btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0.5rem;
+        height: 0.625rem;
+        transform: translate(-50%, -50%);
+        background: url(../images/pause.svg) no-repeat;
+        background-size: contain;
+      }
+
+      &__btn:hover,
+      &__btn:focus-visible {
+        opacity: 0.8;
+      }
+
+      &__title {
+        font-size: 0.625rem;
+        font-weight: 400;
+        line-height: 0.6825rem;
+        letter-spacing: 0.02rem;
+        text-align: center;
+      }
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+      gap: 1.25rem;
+      padding: 1.75rem;
+      width: 100%;
+      height: 100%;
+      border-radius: 1.875rem;
+      background: #2B2626;
+
+      &__title {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.375rem;
+        letter-spacing: 0.02rem;
+        text-align: start;
+        color: #FFFFFF;
+
+        span {
+          vertical-align: top;
+          font-size: 0.625rem;
+          font-weight: 400;
+          line-height: 0.6825rem;
+          letter-spacing: 0.02rem;
+          text-transform: uppercase;
+        }
+      }
+
+      &__text {
+        font-size: 0.625rem;
+        font-weight: 400;
+        line-height: 0.6825rem;
+        letter-spacing: 0.02rem;
+        color: #555353;
+      }
+    }
+  }
+}
+
+.box-animation {
+  transition: all 1.2s ease-in-out;
+  -webkit-transition: all 1.2s ease-in-out; /** Chrome & Safari **/
+  -moz-transition: all 1.2s ease-in-out; /** Firefox **/
+  -o-transition: all 1.2s ease-in-out; /** Opera **/
 }
